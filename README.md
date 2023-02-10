@@ -1,4 +1,4 @@
-#AWS Infrastructure Deployment with Terraform and Lambda
+# AWS Infrastructure Deployment with Terraform and Lambda
 This project deploys the AWS infrastructure using Terraform. The main purpose of this infrastructure is to retrieve the price of a cryptocurrency token using the Coingecko API. The infrastructure includes an API Gateway (REST API) and a Lambda function.
 
 Requirements
