@@ -14,8 +14,7 @@ This project deploys AWS infrastructure using Terraform. The main purpose of thi
 5. Create an execution plan by running `terraform plan`.
 6. Apply the plan by running `terraform apply`.
 
-####Note: 
-If you receive an error like "Putting API Gateway Integration Response: NotFoundException: Invalid Integration identifier specified" when running `terraform apply`, just re-run the command again and I'll dissappear. 
+**Note:** If you receive an error like "Putting API Gateway Integration Response: NotFoundException: Invalid Integration identifier specified" when running `terraform apply`, just re-run the command again and I'll dissappear. 
 
 
 ### main.tf
