@@ -6,6 +6,10 @@ provider "aws" {
 
 resource "aws_api_gateway_rest_api" "api_gw" {
   name = "token_prices_api"
+  
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
 }
 
 resource "aws_api_gateway_resource" "price" {
@@ -13,6 +17,7 @@ resource "aws_api_gateway_resource" "price" {
   parent_id   = "${aws_api_gateway_rest_api.api_gw.root_resource_id}"
   path_part   = "price"
 }
+  
 
 resource "aws_lambda_function" "lambda_prices" {
   function_name = "lambda_prices"
@@ -40,6 +45,57 @@ resource "aws_iam_role" "role" {
       }
     ]
   })
+}
+
+resource "aws_iam_role" "api_gateway_invoke_role" {
+  name = "api_gateway_invoke_role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
+      },
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "apigateway.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "api_gateway_invoke_policy" {
+  name = "api_gateway_invoke_policy"
+  role = "${aws_iam_role.api_gateway_invoke_role.id}"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "lambda:InvokeFunction",
+        Effect = "Allow",
+        Resource = "${aws_lambda_function.lambda_prices.arn}"
+      }
+    ]
+  })
+}
+
+resource "aws_lambda_permission" "lambda_permission" {
+  statement_id  = "AllowExecutionFromApiGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.lambda_prices.arn}"
+  principal     = "apigateway.amazonaws.com"
+
+  # The /*/*/* part allows invocation from any stage, method and resource path
+  # within API Gateway REST API.
+  source_arn = "${aws_api_gateway_rest_api.api_gw.execution_arn}/*/GET/price"
 }
 
 resource "aws_api_gateway_request_validator" "validator" {
@@ -78,7 +134,8 @@ resource "aws_api_gateway_integration" "api_integration" {
   EOF
   }
 
-  uri         = aws_lambda_function.lambda_prices.invoke_arn
+  uri         = "${aws_lambda_function.lambda_prices.invoke_arn}"
+  credentials = "${aws_iam_role.api_gateway_invoke_role.arn}"
 }
 
 resource "aws_api_gateway_deployment" "apideploy" {
@@ -90,15 +147,28 @@ resource "aws_api_gateway_deployment" "apideploy" {
    stage_name  = "test"
 }
 
-resource "aws_lambda_permission" "lambda_allow" {
-   statement_id  = "AllowAPIGatewayInvoke"
-   action        = "lambda:InvokeFunction"
-   function_name = aws_lambda_function.lambda_prices.function_name
-   principal     = "apigateway.amazonaws.com"
 
-   # The "/*/*" portion grants access from any method on any resource
-   # within the API Gateway REST API.
-   source_arn = "${aws_api_gateway_rest_api.api_gw.execution_arn}/*/*"
+resource "aws_api_gateway_method_response" "method_response" {
+  rest_api_id = aws_api_gateway_rest_api.api_gw.id
+  resource_id = aws_api_gateway_resource.price.id
+  http_method = aws_api_gateway_method.get_price.http_method
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Content-Type" = true
+  }
+
+  response_models = {
+  "application/json" = "Empty"
+  }
+
+}
+
+resource "aws_api_gateway_integration_response" "integration_response" {
+  rest_api_id = "${aws_api_gateway_rest_api.api_gw.id}"
+  resource_id = "${aws_api_gateway_resource.price.id}"
+  http_method = "${aws_api_gateway_method.get_price.http_method}"
+  status_code = "200"
 }
 
 
