@@ -13,12 +13,19 @@ This project deploys AWS infrastructure using Terraform. The main purpose of thi
 4. Initialize Terraform by running `terraform init`.
 5. Create an execution plan by running `terraform plan`.
 6. Apply the plan by running `terraform apply`.
-
-**Note:** If you receive an error like "Putting API Gateway Integration Response: NotFoundException: Invalid Integration identifier specified" when running `terraform apply`, just re-run the command again and I'll dissappear. 
-
+7. You'll see an output in the terminal when the "apply" finishes, showing the API Endpoint URL
 
 ### main.tf
-This file contains the Terraform code that deploys the AWS infrastructure. It creates an API Gateway (REST API) and a Lambda function. This includes deploying the API gateway, linking it to the Lambda function so it triggers it when it's invoked, and uploads all the necessary files to the Lambda function.
+This file contains the basic Terraform code containing the credentials and output parameters. that deploys the AWS infrastructure. It creates an API Gateway (REST API) and a Lambda function. This includes deploying the API gateway, linking it to the Lambda function so it triggers it when it's invoked, and uploads all the necessary files to the Lambda function.
+
+### apigw.tf
+This Terraform config file deploys the API GW in AWS and performs the needed configurations on this service.
+
+### lambda.tf
+This Terraform config file deploys the Lambda function in AWS and performs the needed configurations on this service.
+
+### policies.tf
+This Terraform config file defines the needed IAM roles and policies to be attached to the services, so the Lambda function can be invoked through the API GW.
 
 ### lambda_function.py
 This file contains the Python code for the Lambda function that retrieves the price of a cryptocurrency token.
