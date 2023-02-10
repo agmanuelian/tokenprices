@@ -9,9 +9,10 @@ This project deploys the AWS infrastructure using Terraform. The main purpose of
 ## How to deploy the infrastructure
 1. Clone the repository to your local machine.
 2. Navigate to the root of the project in the terminal.
-3. Initialize Terraform by running terraform init.
-4. Create an execution plan by running terraform plan.
-5. Apply the plan by running terraform apply.
+3. Set up your own AWS credentials in the `main.tf` file.
+4. Initialize Terraform by running `terraform init`.
+5. Create an execution plan by running `terraform plan`.
+6. Apply the plan by running `terraform apply`.
 
 
 ### main.tf
@@ -20,15 +21,20 @@ This file contains the Terraform code that deploys the AWS infrastructure. It cr
 ### lambda_function.py
 This file contains the Python code for the Lambda function that retrieves the price of a cryptocurrency token.
 
-### function.zio
+### function.zip
 This file contains the Terraform variables used in the main.tf file.
 
 ## Deployment Details
 The Terraform code creates the following AWS resources:
 
-API Gateway (REST API)
+⋅ API Gateway (REST API)
 ⋅ Lambda function
-⋅ The API Gateway is connected to the Lambda function. When a GET request is made to the API with a "symbol" querystring parameter, the Lambda function retrieves the price of the corresponding cryptocurrency token.
+
+The API Gateway is connected to the Lambda function. When a GET request is made to the API with a `"symbol"` querystring parameter, the Lambda function retrieves the price of the corresponding cryptocurrency token.
+
+API syntax
+
+`https://{base-url}/price?symbol=btc`
 
 ### Note
-Don't forget to destroy the infrastructure when you are done using it, by running terraform destroy.
+Don't forget to destroy the infrastructure when you are done using it, by running `terraform destroy`.
