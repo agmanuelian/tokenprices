@@ -5,7 +5,7 @@ import requests, json
 
 def lambda_handler(event, context):
     try:
-        symbol = event['symbol'] #  Takes input from API GW query string parameter
+        symbol = event['queryStringParameters']['symbol'] #  Takes input from API GW query string parameter
     
         if (len(symbol) <  4):
             symbol = symbol_mapping(symbol)
