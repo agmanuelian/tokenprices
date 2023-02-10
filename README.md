@@ -22,7 +22,7 @@ This file contains the Terraform code that deploys the AWS infrastructure. It cr
 This file contains the Python code for the Lambda function that retrieves the price of a cryptocurrency token.
 
 ### function.zip
-This file contains the Terraform variables used in the main.tf file.
+This file contains all the necessary files for the Lambda function to work (source code, and needed libraries)
 
 ## Deployment Details
 The Terraform code creates the following AWS resources:
