@@ -14,6 +14,9 @@ This project deploys AWS infrastructure using Terraform. The main purpose of thi
 5. Create an execution plan by running `terraform plan`.
 6. Apply the plan by running `terraform apply`.
 
+####Note: 
+If you receive an error like "Putting API Gateway Integration Response: NotFoundException: Invalid Integration identifier specified" when running `terraform apply`, just re-run the command again and I'll dissappear. 
+
 
 ### main.tf
 This file contains the Terraform code that deploys the AWS infrastructure. It creates an API Gateway (REST API) and a Lambda function. This includes deploying the API gateway, linking it to the Lambda function so it triggers it when it's invoked, and uploads all the necessary files to the Lambda function.
