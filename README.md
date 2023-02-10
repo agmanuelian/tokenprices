@@ -30,6 +30,7 @@ This file contains all the necessary files for the Lambda function to work (sour
 The Terraform code creates the following AWS resources:
 
 ⋅ API Gateway (REST API)
+
 ⋅ Lambda function
 
 The API Gateway is connected to the Lambda function. When a GET request is made to the API with a `"symbol"` querystring parameter, the Lambda function retrieves the price of the corresponding cryptocurrency token.
