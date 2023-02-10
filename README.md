@@ -1,10 +1,10 @@
-# AWS Infrastructure Deployment with Terraform and Lambda
+# AWS Infrastructure Deployment with Terraform - Token price API
 This project deploys the AWS infrastructure using Terraform. The main purpose of this infrastructure is to retrieve the price of a cryptocurrency token using the Coingecko API. The infrastructure includes an API Gateway (REST API) and a Lambda function.
 
 ## Requirements
-⋅⋅* Terraform installed in your environment.
+⋅ Terraform installed in your environment.
 
-⋅⋅* AWS account with sufficient permissions to create and manage AWS resources.
+⋅ AWS account with sufficient permissions to create and manage AWS resources.
 
 ## How to deploy the infrastructure
 1. Clone the repository to your local machine.
@@ -27,8 +27,8 @@ This file contains the Terraform variables used in the main.tf file.
 The Terraform code creates the following AWS resources:
 
 API Gateway (REST API)
-⋅⋅* Lambda function
-⋅⋅* The API Gateway is connected to the Lambda function. When a GET request is made to the API with a "symbol" querystring parameter, the Lambda function retrieves the price of the corresponding cryptocurrency token.
+⋅ Lambda function
+⋅ The API Gateway is connected to the Lambda function. When a GET request is made to the API with a "symbol" querystring parameter, the Lambda function retrieves the price of the corresponding cryptocurrency token.
 
 ### Note
 Don't forget to destroy the infrastructure when you are done using it, by running terraform destroy.
