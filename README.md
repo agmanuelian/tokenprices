@@ -1,5 +1,5 @@
 # AWS Infrastructure Deployment with Terraform - Token price API
-This project deploys AWS infrastructure using Terraform. The main purpose of this infrastructure is to retrieve the price of a cryptocurrency token using the Coingecko API. The infrastructure includes an API Gateway (REST API) and a Lambda function.
+This project deploys AWS infrastructure using Terraform. The main purpose of this infrastructure is to retrieve the price of a cryptocurrency token using the Coingecko API. The infrastructure includes an API Gateway (HTTP API) and a Lambda function.
 
 ## Requirements
 ⋅ Terraform installed in your environment.
